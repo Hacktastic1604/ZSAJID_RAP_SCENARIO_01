@@ -1,0 +1,38 @@
+managed implementation in class zbp_i_vend_contract unique;
+strict ( 2 );
+
+with draft;
+define behavior for YI_VEND_CONTRACT alias vendor_contract
+persistent table yvend_contract
+draft table zdraft_contract
+lock master total etag local_last_changed_at
+authorization master ( instance )
+etag master last_changed_at
+{
+  create ( authorization : global );
+  update;
+  delete;
+   field ( readonly, numbering : managed ) uuid;
+   field ( readonly ) created_by, created_at, last_changed_by, last_changed_at, local_last_changed_at;
+
+ draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare
+  {
+    validation validateDates;
+    validation validateAmount;
+  }
+  determination setInitialDefaultStatus on modify { create; }
+  determination calculateRenewalFlag on modify { field end_date; }
+  validation validateDates on save { create; update; }
+  validation validateAmount on save { create; update; }
+  side effects
+  {
+    field end_date affects field renewal_required;
+  }
+  action ( features : instance ) submit result [1] $self;
+  action ( features : instance ) approve result [1] $self;
+  action ( features : instance ) reject result [1] $self;
+}

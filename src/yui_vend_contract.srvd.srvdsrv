@@ -1,0 +1,4 @@
+@EndUserText.label: 'Vendor Contract UI'
+define service YUI_VEND_CONTRACT {
+  expose YC_VEND_CONTRACT as vendor_contract;
+}

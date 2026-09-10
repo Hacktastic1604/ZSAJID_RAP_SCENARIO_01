@@ -1,0 +1,20 @@
+projection;
+strict ( 2 );
+use draft;
+
+use side effects;
+define behavior for YC_VEND_CONTRACT alias vendor_contract
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Activate;
+  use action Discard;
+  use action Edit;
+  use action Resume;
+  use action Prepare;
+  use action approve;
+  use action reject;
+  use action submit;
+}

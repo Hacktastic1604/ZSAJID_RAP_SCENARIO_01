@@ -1,0 +1,5 @@
+CLASS zbp_i_vend_contract DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF yi_vend_contract.
+ENDCLASS.
+
+CLASS zbp_i_vend_contract IMPLEMENTATION.
+ENDCLASS.

@@ -1,0 +1,103 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+
+@UI.headerInfo: {
+    typeName: 'Vendor Contract',
+    typeNamePlural: 'Vendor Contracts',
+    title: {
+        value: 'contract_id'
+    },
+    description: {
+        value: 'contract_title'
+    }
+}
+annotate entity YC_VEND_CONTRACT with
+{
+  @UI.facet: [{ position: 10, id: 'generalInfo',  label: 'General Information', targetQualifier: 'GENERAL', type: #IDENTIFICATION_REFERENCE },
+              { position: 20, id: 'contractInfo', label: 'Contract Details', targetQualifier: 'CONTRACT', type: #FIELDGROUP_REFERENCE },
+              { position: 30, id: 'approvalInfo', label: 'Approval Details', targetQualifier: 'APPROVAL', type: #FIELDGROUP_REFERENCE },
+              { position: 40, id: 'auditInfo',    label: 'Audit Details', targetQualifier: 'AUDIT', type: #IDENTIFICATION_REFERENCE }]
+
+  @UI.identification: [{ position: 10, label: 'Submit',  type: #FOR_ACTION, dataAction: 'submit' },
+                       { position: 20, label: 'Approve', type: #FOR_ACTION, dataAction: 'approve' },
+                       { position: 30, label: 'Reject',  type: #FOR_ACTION, dataAction: 'reject' }]
+
+  @EndUserText.label: 'UUID'
+  @UI.hidden: true
+  uuid;
+  @EndUserText.label: 'Contract ID'
+  @UI.lineItem: [{ position: 10 }]
+  @UI.selectionField: [{ position: 30 }]
+  @Search.defaultSearchElement: true
+  @UI.identification: [{ position: 10, qualifier: 'GENERAL' }]
+  contract_id;
+  @EndUserText.label: 'Vendor Number'
+  @UI.identification: [{ position: 20, qualifier: 'GENERAL' }]
+  vendor_id;
+  @EndUserText.label: 'Vendor Name'
+  @UI.lineItem: [{ position: 30 }]
+  @UI.selectionField: [{ position: 10 }]
+  @Search.defaultSearchElement: true
+  @UI.identification: [{ position: 30, qualifier: 'GENERAL' }]
+  vendor_name;
+  @EndUserText.label: 'Contract Title'
+  @UI.lineItem: [{ position: 20 }]
+  @Search.defaultSearchElement: true
+  @UI.identification: [{ position: 40, qualifier: 'GENERAL' }]
+  contract_title;
+  @EndUserText.label: 'Contract Start Date'
+  @UI.selectionField: [{ position: 40 }]
+  @UI.fieldGroup: [{ position: 40, qualifier: 'CONTRACT' }]
+  start_date;
+  @EndUserText.label: 'Contract End Date'
+  @UI.lineItem: [{ position: 60 }]
+  @UI.selectionField: [{ position: 50 }]
+  @UI.fieldGroup: [{ position: 50, qualifier: 'CONTRACT' }]
+  end_date;
+  @EndUserText.label: 'Last Review Date'
+  last_review_date;
+  @EndUserText.label: 'Contract Amount'
+  @UI.lineItem: [{ position: 50 }]
+  @UI.fieldGroup: [{ position: 20, qualifier: 'CONTRACT' }]
+  contract_value;
+  @EndUserText.label: 'Currency'
+  @UI.fieldGroup: [{ position: 30, qualifier: 'CONTRACT' }]
+  currency;
+  @EndUserText.label: 'Status'
+  @UI.lineItem: [{ position: 40, criticality: 'status_criticality' }]
+  @UI.selectionField: [{ position: 20 }]
+  @UI.identification: [{ criticality: 'status_criticality' }]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'CONTRACT' }]
+  status;
+  @UI.hidden: true
+  status_criticality;
+  @EndUserText.label: 'Buyer ID'
+  @UI.fieldGroup: [{ position: 10, qualifier: 'APPROVAL' }]
+  buyer_id;
+  @EndUserText.label: 'Approver ID'
+  @UI.selectionField: [{ position: 60 }]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'APPROVAL' }]
+  approver_id;
+  @EndUserText.label: 'Renewal Required'
+  @UI.lineItem: [{ position: 70 }]
+  @UI.selectionField: [{ position: 70 }]
+  @UI.fieldGroup: [{ position: 60, qualifier: 'CONTRACT' }]
+  renewal_required;
+  @EndUserText.label: 'Created By'
+  @UI.identification: [{ position: 10, qualifier: 'AUDIT' }]
+  created_by;
+  @EndUserText.label: 'Created At'
+  @UI.identification: [{ position: 20, qualifier: 'AUDIT' }]
+  created_at;
+  @EndUserText.label: 'Last Changed By'
+  @UI.identification: [{ position: 30, qualifier: 'AUDIT' }]
+  last_changed_by;
+  @EndUserText.label: 'Last Changed At'
+  @UI.identification: [{ position: 40, qualifier: 'AUDIT' }]
+  last_changed_at;
+  @UI.hidden: true
+  @EndUserText.label: 'Local Last Changed At'
+  @UI.identification: [{ position: 50, qualifier: 'AUDIT' }]
+  local_last_changed_at;
+
+}
