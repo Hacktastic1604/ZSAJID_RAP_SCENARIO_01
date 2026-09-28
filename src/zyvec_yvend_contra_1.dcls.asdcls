@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZYVEC_YVEND_CONTRA_1'
+@MappingRole: true
+define role ZYVEC_YVEND_CONTRA_1 {
+  grant select on ZYVEC_YVEND_CONTRA_1
+  where INHERITING CONDITIONS FROM ENTITY ZYVER_YVEND_CONTRA_1 REPLACING { ROOT WITH _BaseEntity };
+}

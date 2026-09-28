@@ -3,10 +3,12 @@
 {
 "FROM":
 [
-"YI_VEND_CONTRA_1"
+"ZYVER_YVEND_CONTRA_1"
 ],
 "ASSOCIATED":
-[],
+[
+"ZYVER_YVEND_CONTRA_1"
+],
 "BASE":
 [],
 "ANNO_REF":

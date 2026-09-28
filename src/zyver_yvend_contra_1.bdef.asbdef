@@ -1,0 +1,58 @@
+managed implementation in class ZYVEBP_R_YVEND_CONTRA_1 unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZYVER_YVEND_CONTRA_1 alias ZyverYvendContra1
+persistent table YVEND_CONTRA_1
+extensible
+draft table ZYVEYVND_CNTRA_D
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master( global )
+{
+  field ( readonly )
+   UUID,
+   CreatedBy,
+   CreatedAt,
+   LastChangedBy,
+   LastChangedAt,
+   LocalLastChangedAt;
+
+  field ( numbering : managed )
+   UUID;
+
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for YVEND_CONTRA_1 corresponding extensible
+  {
+    UUID = UUID;
+    ContractID = CONTRACT_ID;
+    VendorID = VENDOR_ID;
+    VendorName = VENDOR_NAME;
+    ContractTitle = CONTRACT_TITLE;
+    StartDate = START_DATE;
+    EndDate = END_DATE;
+    LastReviewDate = LAST_REVIEW_DATE;
+    ContractValue = CONTRACT_VALUE;
+    Currency = CURRENCY;
+    Status = STATUS;
+    BuyerID = BUYER_ID;
+    ApproverID = APPROVER_ID;
+    RenewalRequired = RENEWAL_REQUIRED;
+    CreatedBy = CREATED_BY;
+    CreatedAt = CREATED_AT;
+    LastChangedBy = LAST_CHANGED_BY;
+    LastChangedAt = LAST_CHANGED_AT;
+    LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+  }
+
+}

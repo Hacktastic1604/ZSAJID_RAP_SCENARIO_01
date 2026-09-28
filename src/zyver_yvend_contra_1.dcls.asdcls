@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZYVER_YVEND_CONTRA_1'
+@MappingRole: true
+define role ZYVER_YVEND_CONTRA_1 {
+  grant select on ZYVER_YVEND_CONTRA_1
+  where TRUE;
+}

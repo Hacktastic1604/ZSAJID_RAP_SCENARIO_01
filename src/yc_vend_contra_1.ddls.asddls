@@ -1,7 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Projection View'
 @Metadata.allowExtensions: true
-define root view entity YC_VEND_CONTRACT
+define root view entity YC_VEND_CONTRA_1
   provider contract transactional_query
   as projection on YI_VEND_CONTRA_1
 {

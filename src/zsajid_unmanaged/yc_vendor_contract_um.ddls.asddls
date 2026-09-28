@@ -1,9 +1,9 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-@EndUserText.label: 'Projection View'
+@EndUserText.label: 'Projection View - Unmanaged Scenario'
 @Metadata.allowExtensions: true
-define root view entity YC_VEND_CONTRACT
+define root view entity YC_VENDOR_CONTRACT_UM
   provider contract transactional_query
-  as projection on YI_VEND_CONTRA_1
+  as projection on YI_VENDOR_CONTRACT_UM
 {
   key     uuid,
           contract_id,
@@ -27,4 +27,3 @@ define root view entity YC_VEND_CONTRACT
           last_changed_at,
           local_last_changed_at
 }
-   

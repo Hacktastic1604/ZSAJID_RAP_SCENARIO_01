@@ -1,5 +1,8 @@
+// RAP managed implementation: business logic is implemented in ABAP class
 
-managed implementation in class zbp_i_vend_contract unique;
+// Alternative: unmanaged implementation for custom
+// persistence and save logic.
+managed implementation in class zbp_i_vend_contra1 unique;
 
 // Strictness level 2 enables stronger syntax/consistency checks.
 // Alternative: lower strictness or no strictness, but with fewer safeguards.
@@ -11,11 +14,10 @@ with draft;
 
 // Define the behavior for the interface view entity.
 
-define behavior for YI_VEND_CONTRACT alias vendor_contract
+define behavior for YI_VEND_CONTRA_1 alias vendor_contract1
 
-// Active business data is persisted here.
-// Alternative: different persistence table or unmanaged persistence.
-persistent table yvend_contract
+
+persistent table yvend_contra_1
 
 
 // Draft instances are stored separately while the user edits data.
@@ -32,12 +34,10 @@ authorization master ( instance )
 
 // ETag provides optimistic concurrency control using last_changed_at.
 // Alternative: another timestamp/hash field or no ETag control.
-
 etag master last_changed_at
 {
   // Create is allowed; global authorization is checked for create.
   // Alternative: restrict create further or remove create entirely.
-
   create ( authorization : global );
 
   // Update existing active records.

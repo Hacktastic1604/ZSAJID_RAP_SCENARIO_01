@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service Definition for Vendor Contract1'
+define service YSD_VEND_CONTRACT1 {
+  expose YC_VEND_CONTRA_1 as Vendor_Contract1;
+}

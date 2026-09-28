@@ -1,4 +1,4 @@
-CLASS lhc_YI_VEND_CONTRACT DEFINITION INHERITING FROM cl_abap_behavior_handler.
+CLASS lhc_vendor_contract1 DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
 
     "--------------------------------------------------------------------
@@ -17,40 +17,40 @@ CLASS lhc_YI_VEND_CONTRACT DEFINITION INHERITING FROM cl_abap_behavior_handler.
     " UI metadata-driven, and lets the framework orchestrate save, action,
     " and response handling consistently in local transaction mode.
 
-       METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
-      keys REQUEST requested_authorizations FOR vendor_contract RESULT result.
+    METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
+   keys REQUEST requested_authorizations FOR vendor_contract1 RESULT result.
 
     METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
-      REQUEST requested_authorizations FOR vendor_contract RESULT result.
+      REQUEST requested_authorizations FOR vendor_contract1 RESULT result.
 
     METHODS setinitialdefaultstatus FOR DETERMINE ON MODIFY
-       keys FOR vendor_contract~setinitialdefaultstatus.
+       keys FOR vendor_contract1~setinitialdefaultstatus.
 
     METHODS validatedates FOR VALIDATE ON SAVE
-       keys FOR vendor_contract~validatedates.
+       keys FOR vendor_contract1~validatedates.
 
     METHODS validateamount FOR VALIDATE ON SAVE
-       keys FOR vendor_contract~validateamount.
+       keys FOR vendor_contract1~validateamount.
 
     METHODS calculaterenewalflag FOR DETERMINE ON MODIFY
-       keys FOR vendor_contract~calculaterenewalflag.
+       keys FOR vendor_contract1~calculaterenewalflag.
 
     METHODS approve FOR MODIFY
-       keys FOR ACTION vendor_contract~approve RESULT result.
+       keys FOR ACTION vendor_contract1~approve RESULT result.
 
 
     METHODS reject FOR MODIFY
-       keys FOR ACTION vendor_contract~reject RESULT result.
+       keys FOR ACTION vendor_contract1~reject RESULT result.
 
     METHODS submit FOR MODIFY
-       keys FOR ACTION vendor_contract~submit RESULT result.
+       keys FOR ACTION vendor_contract1~submit RESULT result.
 
     METHODS get_instance_features FOR INSTANCE FEATURES
-      keys REQUEST requested_features FOR vendor_contract RESULT result.
+      keys REQUEST requested_features FOR vendor_contract1 RESULT result.
 
 ENDCLASS.
 
-CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
+CLASS lhc_vendor_contract1 IMPLEMENTATION.
 
   "--------------------------------------------------------------------
   " Authorization hooks
@@ -61,7 +61,7 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
   " By explicitly implementing them, the behavior definition remains ready
   " for future rule-based access control without changing the class shape.
 
-   METHOD get_instance_authorizations.
+  METHOD get_instance_authorizations.
     " Currently no row-level authorization restriction is applied.
     " The framework will still call this method when it evaluates whether
     " the current user may see or change specific contract instances.
@@ -80,8 +80,8 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " submit/approve/reject workflow steps in a controlled manner.
     " MODIFY ENTITIES updates the draft record in local mode, which means
     " the change is applied inside the current RAP transaction before save.
-    MODIFY ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    MODIFY ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     UPDATE FIELDS ( status )
     WITH VALUE #( FOR key IN keys ( %tky = key-%tky
                                     status = 'DRAFT' ) ).
@@ -95,8 +95,8 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " READ ENTITIES fetches only the date fields needed for validation so
     " the method stays efficient and only checks the records selected by the
     " current RAP request.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     FIELDS ( start_date end_date )
     WITH CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).
@@ -108,13 +108,13 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
           " failed-vendor_contract marks the instance as invalid for save,
           " while reported-vendor_contract carries the user-facing message and
           " points the error to the end_date field for easy correction.
-          APPEND VALUE #( %tky = ls_contract-%tky ) TO failed-vendor_contract.
+          APPEND VALUE #( %tky = ls_contract-%tky ) TO failed-vendor_contract1.
           APPEND VALUE #( %tky = ls_contract-%tky
                           %msg = new_message( id       = 'ZMC_VENDOR_CONTRACT'
                                               number   = '001'
                                               severity = if_abap_behv_message=>severity-error )
                           %element-end_date = if_abap_behv=>mk-on
-                           ) TO reported-vendor_contract.
+                           ) TO reported-vendor_contract1.
         ENDIF.
       ENDLOOP.
     ENDIF.
@@ -126,8 +126,8 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " not make sense for a vendor contract amount.
     " The READ ENTITIES statement keeps the validation focused only on the
     " amount field that is required for this business rule.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     FIELDS ( contract_value )
     WITH CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).
@@ -138,13 +138,13 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
         IF ls_contract-contract_value LE 0.
           " The failed/reported pattern is the RAP way of stopping the save
           " and returning a precise message for the affected field.
-          APPEND VALUE #( %tky = ls_contract-%tky ) TO failed-vendor_contract.
+          APPEND VALUE #( %tky = ls_contract-%tky ) TO failed-vendor_contract1.
           APPEND VALUE #( %tky = ls_contract-%tky
                           %msg = new_message( id       = 'ZMC_VENDOR_CONTRACT'
                                               number   = '002'
                                               severity = if_abap_behv_message=>severity-error )
                           %element-contract_value =  if_abap_behv=>mk-on
-                          ) TO reported-vendor_contract.
+                          ) TO reported-vendor_contract1.
         ENDIF.
       ENDLOOP.
     ENDIF.
@@ -162,16 +162,16 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
 
     " Read the current end dates first; the flag is based on existing entity
     " data and should be derived from the persisted state, not hard-coded.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     FIELDS ( end_date )
     WITH CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).
 
     " Update the derived renewal flag in the same transaction so the user sees
     " the calculated value immediately after the record changes.
-    MODIFY ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    MODIFY ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     UPDATE FIELDS ( renewal_required )
     WITH VALUE #( FOR ls_contract IN lt_contracts
                    ( %tky = ls_contract-%tky
@@ -186,15 +186,15 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " UI to refresh immediately after the action executes.
     " The entity update writes only the status field, keeping the action
     " focused and avoiding unintended changes to other business data.
-    MODIFY ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    MODIFY ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     UPDATE FIELDS ( status )
     WITH VALUE #( FOR key IN keys ( %tky   = key-%tky
                                     status = 'APPROVED' ) ).
     " READ ENTITIES retrieves the full post-action image so the framework can
     " return the updated contract data to the caller.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     ALL FIELDS WITH
     CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).
@@ -209,15 +209,15 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " data so the object page/list report can reflect the state change right
     " away without requiring a manual reload.
     " The update is intentionally limited to the workflow status field.
-    MODIFY ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    MODIFY ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     UPDATE FIELDS ( status )
     WITH VALUE #( FOR key IN keys ( %tky   = key-%tky
                                     status = 'REJECTED' ) ).
     " Fetch the updated state after the rejection so the action response is
     " consistent with the latest persisted values in the local transaction.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     ALL FIELDS WITH
     CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).
@@ -232,16 +232,16 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " entity image so the UI always stays in sync with the backend state.
     " Again, only the status field changes here because the purpose of the
     " action is workflow progression, not master-data maintenance.
-    MODIFY ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    MODIFY ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     UPDATE FIELDS ( status )
     WITH VALUE #( FOR key IN keys ( %tky   = key-%tky
                                     status = 'SUBMITTED' ) ).
 
     " Read the full entity data after submit so the caller receives the latest
     " object state immediately.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     ALL FIELDS WITH
     CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).
@@ -257,8 +257,8 @@ CLASS lhc_YI_VEND_CONTRACT IMPLEMENTATION.
     " can be approved or rejected).
     " Read only the status field because feature control depends solely on the
     " workflow state, not the other contract attributes.
-    READ ENTITIES OF yi_vend_contract IN LOCAL MODE
-    ENTITY vendor_contract
+    READ ENTITIES OF yi_vend_contra_1 IN LOCAL MODE
+    ENTITY vendor_contract1
     FIELDS ( status )
     WITH CORRESPONDING #( keys )
     RESULT DATA(lt_contracts).

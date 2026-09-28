@@ -1,0 +1,11 @@
+@EndUserText: {
+  label: 'Service Definition for ZYVEC_YVEND_CONTRA_1'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZYVEC_YVEND_CONTRA_1'
+  }
+}
+define service ZYVEUI_YVEND_CONTRA_1_O4 provider contracts odata_v4_ui {
+  expose ZYVEC_YVEND_CONTRA_1;
+}

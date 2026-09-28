@@ -1,0 +1,4 @@
+@EndUserText.label: 'Vendor Contract Unmanaged'
+define service YUI_VEND_CON_UM {
+  expose YC_VENDOR_CONTRACT_UM as vendor_contract;
+}

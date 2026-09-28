@@ -17,7 +17,7 @@
         value: 'contract_title'
     }
 }
-annotate entity YC_VEND_CONTRA_1 with
+annotate entity YC_VEND_CONTRACT with
 {
   // Facets define the layout of the object page. Each facet points to a
   // section (Identification, Field Group, etc.) via a qualifier so Fiori
@@ -26,8 +26,6 @@ annotate entity YC_VEND_CONTRA_1 with
               { position: 20, id: 'contractInfo', label: 'Contract Details', targetQualifier: 'CONTRACT', type: #FIELDGROUP_REFERENCE },
               { position: 30, id: 'approvalInfo', label: 'Approval Details', targetQualifier: 'APPROVAL', type: #FIELDGROUP_REFERENCE },
               { position: 40, id: 'auditInfo',    label: 'Audit Details', targetQualifier: 'AUDIT', type: #IDENTIFICATION_REFERENCE }]
-
-
 
   // Identification actions become object-page actions in the UI. The
   // `dataAction` names map to RAP actions implemented in the behavior definition.
